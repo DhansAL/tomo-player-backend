@@ -3,14 +3,16 @@ import { Request, Response } from "express";
 
 export const validateSignupRequests = [
   //taking username and password only currently
-  check("username").notEmpty().withMessage("username is requiered"),
+  check("email").notEmpty().withMessage("email is requiered"),
+  check("firstName").notEmpty().withMessage("first name is requiered"),
+  check("lastName").notEmpty().withMessage("last name is requiered"),
   check("password")
     .isLength({ min: 6 })
     .withMessage("password must be atleast 6 character long"),
 ];
 
 export const validateSigninRequests = [
-  check("username").notEmpty().withMessage("username is requiered"),
+  check("email").notEmpty().withMessage("valid email is requiered"),
   check("password")
     .isLength({ min: 6 })
     .withMessage("password must be atleast 6 character long"),
