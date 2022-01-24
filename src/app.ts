@@ -1,13 +1,11 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-
 import * as dotenv from "dotenv";
 import { connect } from "mongoose";
 
 const app: Application = express();
 
 dotenv.config({ path: "./config.env" });
-
 const PORT: string | undefined = process.env.PORT;
 
 // Body parsing Middleware
@@ -20,13 +18,7 @@ const options: cors.CorsOptions = {
 };
 app.use(cors(options));
 
-app.get("/", async (req: Request, res: Response): Promise<Response> => {
-  return res.status(200).send({
-    message: "Hello!",
-  });
-});
-
-//connection via mongoose
+//routes
 
 (async function dbConnect(): Promise<void> {
   // 4. Connect to MongoDB
@@ -39,7 +31,7 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
     .catch((err) => console.log("connection error - " + err));
   try {
     app.listen(PORT, (): void => {
-      console.log(`LISTENING ON on  ${PORT}`);
+      console.log(`LISTENING ON ${PORT}`);
     });
   } catch (error: any) {
     console.error(`Error occured: ${error.message}`);
