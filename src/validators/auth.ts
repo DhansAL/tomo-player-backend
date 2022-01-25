@@ -1,5 +1,5 @@
 import { check, validationResult } from "express-validator";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export const validateSignupRequests = [
   //taking username and password only currently
@@ -19,7 +19,7 @@ export const validateSigninRequests = [
 export const isRequestValidated = (
   req: Request,
   res: Response,
-  next: () => void
+  next: NextFunction
 ) => {
   const errors = validationResult(req);
   if (errors.array().length > 0) {

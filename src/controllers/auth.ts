@@ -4,15 +4,17 @@ import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
 
 export const signup = (req: Request, res: Response) => {
-  User.findOne({ email: req.body.username }).exec(async (error, user) => {
+  User.findOne({ username: req.body.username }).exec(async (error, user) => {
     //if already registered
     if (user) {
       return res.status(400).json({
+        username: user.username,
         message: "username already registered || username already taken",
       });
     }
     //create one if not
     const { username, password } = req.body;
+    console.log(username, password);
 
     const hash_password = await bcrypt.hash(password, 10);
 
