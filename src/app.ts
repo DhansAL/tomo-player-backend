@@ -1,7 +1,8 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import { connect } from "mongoose";
+import { authRouter } from "./routes/auth";
 
 const app: Application = express();
 
@@ -19,9 +20,11 @@ const options: cors.CorsOptions = {
 app.use(cors(options));
 
 //routes
+app.use("/api", authRouter);
 
-(async function dbConnect(): Promise<void> {
-  // 4. Connect to MongoDB
+dbConnect();
+//  Connect to MongoDB
+async function dbConnect(): Promise<void> {
   await connect(
     `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.qkirs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
   )
@@ -36,4 +39,4 @@ app.use(cors(options));
   } catch (error: any) {
     console.error(`Error occured: ${error.message}`);
   }
-})();
+}

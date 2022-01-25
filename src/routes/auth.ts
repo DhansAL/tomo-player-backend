@@ -1,6 +1,11 @@
 import * as express from "express";
-import { isRequestValidated, validateSignupRequests } from "../validators/auth";
+import { signin, signup } from "../controllers/auth";
+import {
+  isRequestValidated,
+  validateSigninRequests,
+  validateSignupRequests,
+} from "../validators/auth";
 
-const router = express.Router();
-
-router.post("/signup", validateSignupRequests, isRequestValidated);
+export const authRouter = express.Router();
+authRouter.post("/signup", validateSignupRequests, isRequestValidated, signup);
+authRouter.post("/signin", validateSigninRequests, isRequestValidated, signin);
