@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 
 export interface CollectionModel {
   username: Types.ObjectId;
-  collectionName: [
+  collectionDetails: [
     {
       name: string;
       rounds: [

@@ -10,7 +10,7 @@ const collectionSchema = new mongoose.Schema<CollectionModel>(
       required: true,
       ref: "User",
     },
-    collectionName: [
+    collectionDetails: [
       {
         name: {
           type: String,
