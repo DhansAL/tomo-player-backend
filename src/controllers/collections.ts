@@ -13,15 +13,34 @@ export const addCollection = (req: Request, res: Response) => {
         for (let i = 0; i < collection.collectionDetails.length; i++) {
           if (collection.collectionDetails[i].name == showNameInRequest) {
             return res.status(400).json({
-              message: "this show already exists in your collection buddy",
+              message: "this show already exists in your collection ",
             });
           }
         }
 
+        //if the requested to add is a new show
         collection.collectionDetails.push(req.body.collectionDetails);
-        return res.status(200).json({
-          message: "added your new show!",
-          show: req.body.collectionDetails,
+
+        Collection.findOneAndUpdate(
+          { username: req.body.tokenId._id },
+          {
+            $set: {
+              collectionDetails: collection.collectionDetails,
+            },
+          }
+        ).exec((error, update) => {
+          if (error) {
+            return res.status(400).json({
+              error: "had issues adding your new show!",
+            });
+          }
+
+          if (update) {
+            return res.status(201).json({
+              message: "added  your new show!",
+              newshow: req.body.collectionDetails,
+            });
+          }
         });
 
         // let user = Collection.findOneAndUpdate({
