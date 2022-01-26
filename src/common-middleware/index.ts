@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, NextFunction, Response } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 
 export const requireSignin = (
@@ -7,10 +7,16 @@ export const requireSignin = (
   next: NextFunction
 ) => {
   if (req.headers.authorization) {
-    const token = req.headers.authorization.split(" ")[1];
-    const user = jwt.verify(token, process.env.JWT_SECRET as Secret);
-    //@ts-expect-error ?
-    req.user = user;
+    try {
+      const token = req.headers.authorization.split(" ")[1];
+      const user = jwt.verify(token, process.env.JWT_SECRET as Secret);
+      req.body.userid = user;
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({
+        message: "invalid token sent",
+      });
+    }
   } else {
     return res.status(400).json({
       message: "authorization requiered",

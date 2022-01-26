@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
+import { CollectionModel } from "../interfaces/models/collections";
 
-const collectionSchema = new mongoose.Schema(
+const collectionSchema = new mongoose.Schema<CollectionModel>(
   {
     //BARE BASIC COLLECTION SCHEMA
     // collection is reserved in mongodb
+    username: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     collectionName: [
       {
-        collectionName: {
+        name: {
           type: String,
           required: true,
-        },
-        username: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "User",
-          trim: true,
-          min: 3,
-          max: 15,
         },
         rounds: [
           {
@@ -34,4 +32,4 @@ const collectionSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Collection", collectionSchema);
+export default mongoose.model("Collection", collectionSchema);
