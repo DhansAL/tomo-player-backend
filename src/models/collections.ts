@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const collectionSchema = new mongoose.Schema(
   {
     //BARE BASIC COLLECTION SCHEMA
-    collection: [
+    // collection is reserved in mongodb
+    collectionName: [
       {
         collectionName: {
           type: String,
@@ -33,4 +34,4 @@ const collectionSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Cart", collectionSchema);
+module.exports = mongoose.model("Collection", collectionSchema);

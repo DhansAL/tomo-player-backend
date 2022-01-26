@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { UserModel } from "../interfaces/models/user";
 
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<UserModel>(
   //does mongoose even understands interfaces? lol
   {
     username: {
@@ -27,4 +27,4 @@ userSchema.methods = {
     return await bcrypt.compare(password, this.hash_password);
   },
 };
-export default mongoose.model<UserModel>("User", userSchema);
+export default mongoose.model("User", userSchema);
