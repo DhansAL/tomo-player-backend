@@ -7,17 +7,18 @@ export const addCollection = (req: Request, res: Response) => {
       if (error) if (error) return res.status(400).json({ error });
       if (collection) {
         // this user has a collection
-        let showNameInRequest = req.body.collectionDetails.name;
-        /**find if we have a show that matches with this. if no push the req show in this arr */
+        let reqShow = req.body.collectionDetails;
+        /**find if we have a show that matches with this. if not, push the req show  */
 
         for (let i = 0; i < collection.collectionDetails.length; i++) {
-          if (collection.collectionDetails[i].name == showNameInRequest) {
+          if (collection.collectionDetails[i].name == reqShow.name) {
+            // handling rounds -later
+
             return res.status(400).json({
-              message: "this show already exists in your collection ",
+              message: "this show already exists in your collection!",
             });
           }
         }
-
         //if the requested to add is a new show
         collection.collectionDetails.push(req.body.collectionDetails);
 
@@ -42,10 +43,7 @@ export const addCollection = (req: Request, res: Response) => {
             });
           }
         });
-
-        // let user = Collection.findOneAndUpdate({
-        //   username: req.body.tokenId._id,
-        // } );
+        //new collection
       } else {
         const collection = new Collection({
           username: req.body.tokenId._id,
@@ -58,6 +56,18 @@ export const addCollection = (req: Request, res: Response) => {
           }
         });
         console.log(req.body.tokenId._id);
+      }
+    }
+  );
+};
+
+export const getCollections = (req: Request, res: Response) => {
+  Collection.findOne({ username: req.body.tokenId._id }).exec(
+    (error, details) => {
+      if (error) if (error) return res.status(400).json({ error });
+
+      if (details) {
+        return res.status(201).json({ yourShows: details.collectionDetails });
       }
     }
   );

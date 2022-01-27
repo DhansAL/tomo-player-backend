@@ -46,7 +46,12 @@ export const signin = (req: Request, res: Response) => {
     if (error) {
       return res.status(400).json({ error });
     }
-
+    //FIXME: this should throw error on wrong creds.
+    if (!user) {
+      return res
+        .status(400)
+        .json({ msg: "didnt find any user. please check your credentials" });
+    }
     if (user) {
       //@ts-expect-error
       //FIXME: set typedeclaration for .authenticate
@@ -58,7 +63,7 @@ export const signin = (req: Request, res: Response) => {
           { _id: user._id },
           process.env.JWT_SECRET as Secret,
           {
-            expiresIn: "1d",
+            expiresIn: "1m",
           }
         );
         const { _id, username } = user;
