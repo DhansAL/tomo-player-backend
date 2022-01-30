@@ -9,20 +9,21 @@ export const addCollection = (req: Request, res: Response) => {
         // this user has a collection
         let thisExisitsArr: string[] = [];
         let thisNewArr: string[] = [];
+        let collNames: string[] = [];
+
+        for (let i = 0; i < collection.collectionDetails.length; i++) {
+          collNames.push(collection.collectionDetails[i].name);
+        }
         for (let i = 0; i < req.body.collectionDetails.length; i++) {
           let reqShow = req.body.collectionDetails[i];
-
-          for (let j = 0; j < collection.collectionDetails.length; j++) {
-            if (reqShow.name == collection.collectionDetails[j].name) {
-              thisExisitsArr.push(reqShow.name);
-              break;
-            } else {
-              console.log(reqShow.name, collection.collectionDetails);
-
-              thisNewArr.push(reqShow.name);
-              collection.collectionDetails.push(reqShow);
-              break;
-            }
+          if (collNames.includes(reqShow.name)) {
+            console.log("this show already exists", reqShow.name);
+            thisExisitsArr.push(reqShow.name);
+          } else {
+            //new show
+            console.log("new show");
+            thisNewArr.push(reqShow.name);
+            collection.collectionDetails.push(reqShow);
           }
         }
 
