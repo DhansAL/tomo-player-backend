@@ -5,14 +5,6 @@ export interface CollectionModel {
   collectionDetails: [
     {
       name: string;
-      rounds: [
-        {
-          //lets store proper dates strings
-          started: string;
-          ended: string;
-          round: string;
-        }
-      ];
     }
   ];
 }

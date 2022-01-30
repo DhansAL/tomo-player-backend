@@ -16,14 +16,6 @@ const collectionSchema = new mongoose.Schema<CollectionModel>(
           type: String,
           required: true,
         },
-        rounds: [
-          {
-            //lets store proper dates strings
-            started: { type: String, required: true },
-            ended: { type: String, required: true },
-            round: { type: Number, required: true },
-          },
-        ],
       },
     ],
   },

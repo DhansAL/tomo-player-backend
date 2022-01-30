@@ -10,6 +10,7 @@ collectionRouter.post(
 );
 collectionRouter.get(
   "/collections/getCollections",
+  //TODO: validate req.body
   requireSignin,
   getCollections
 );

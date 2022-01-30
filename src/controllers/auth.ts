@@ -8,8 +8,7 @@ export const signup = (req: Request, res: Response) => {
     //if already registered
     if (user) {
       return res.status(400).json({
-        username: user.username,
-        message: "username already registered || username already taken",
+        message: "username already registered or taken",
       });
     }
     //create one if not
@@ -63,7 +62,7 @@ export const signin = (req: Request, res: Response) => {
           { _id: user._id },
           process.env.JWT_SECRET as Secret,
           {
-            expiresIn: "1m",
+            expiresIn: "1d",
           }
         );
         const { _id, username } = user;

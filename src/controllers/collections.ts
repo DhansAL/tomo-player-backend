@@ -7,21 +7,26 @@ export const addCollection = (req: Request, res: Response) => {
       if (error) if (error) return res.status(400).json({ error });
       if (collection) {
         // this user has a collection
-        let reqShow = req.body.collectionDetails;
-        /**find if we have a show that matches with this. if not, push the req show  */
+        let thisExisitsArr: string[] = [];
+        let thisNewArr: string[] = [];
+        for (let i = 0; i < req.body.collectionDetails.length; i++) {
+          let reqShow = req.body.collectionDetails[i];
 
-        for (let i = 0; i < collection.collectionDetails.length; i++) {
-          if (collection.collectionDetails[i].name == reqShow.name) {
-            // handling rounds -later
+          for (let j = 0; j < collection.collectionDetails.length; j++) {
+            if (reqShow.name == collection.collectionDetails[j].name) {
+              thisExisitsArr.push(reqShow.name);
+              break;
+            } else {
+              console.log(reqShow.name, collection.collectionDetails);
 
-            return res.status(400).json({
-              message: "this show already exists in your collection!",
-            });
+              thisNewArr.push(reqShow.name);
+              collection.collectionDetails.push(reqShow);
+              break;
+            }
           }
         }
-        //if the requested to add is a new show
-        collection.collectionDetails.push(req.body.collectionDetails);
 
+        //update to mongodb
         Collection.findOneAndUpdate(
           { username: req.body.tokenId._id },
           {
@@ -32,18 +37,21 @@ export const addCollection = (req: Request, res: Response) => {
         ).exec((error, update) => {
           if (error) {
             return res.status(400).json({
-              error: "had issues adding your new show!",
+              error: "had issues adding your new shows!",
             });
           }
 
           if (update) {
             return res.status(201).json({
-              message: "added  your new show!",
-              newshow: req.body.collectionDetails,
+              error: "these items exists in your collection",
+              exists: thisExisitsArr,
+              msg: "these are successfully added to online collection",
+              new: thisNewArr,
             });
           }
         });
-        //new collection
+
+        // new collection - user is new
       } else {
         const collection = new Collection({
           username: req.body.tokenId._id,
@@ -52,7 +60,7 @@ export const addCollection = (req: Request, res: Response) => {
         collection.save((error, collection) => {
           if (error) return res.status(400).json({ error });
           if (collection) {
-            return res.status(201).json({ collection });
+            return res.status(201).json({ meg: "added new user" });
           }
         });
         console.log(req.body.tokenId._id);
