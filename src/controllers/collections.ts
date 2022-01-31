@@ -61,7 +61,10 @@ export const addCollection = (req: Request, res: Response) => {
         collection.save((error, collection) => {
           if (error) return res.status(400).json({ error });
           if (collection) {
-            return res.status(201).json({ meg: "added new user" });
+            return res.status(201).json({
+              greet:
+                "welcome new user, congrats on your first sync. added your show(s) successfully to our database",
+            });
           }
         });
         console.log(req.body.tokenId._id);
@@ -73,10 +76,12 @@ export const addCollection = (req: Request, res: Response) => {
 export const getCollections = (req: Request, res: Response) => {
   Collection.findOne({ username: req.body.tokenId._id }).exec(
     (error, details) => {
-      if (error) if (error) return res.status(400).json({ error });
+      if (error) return res.status(400).json({ error });
 
       if (details) {
         return res.status(201).json({ yourShows: details.collectionDetails });
+      } else {
+        return res.status(400).json({ msg: "no shows added yet" });
       }
     }
   );

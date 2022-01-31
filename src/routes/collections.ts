@@ -4,12 +4,12 @@ import { addCollection, getCollections } from "../controllers/collections";
 
 export const collectionRouter = express.Router();
 collectionRouter.post(
-  "/collections/addCollection",
+  "/collections/addcollection",
   requireSignin,
   addCollection
 );
 collectionRouter.get(
-  "/collections/getCollections",
+  "/collections/getcollection",
   //TODO: validate req.body
   requireSignin,
   getCollections
