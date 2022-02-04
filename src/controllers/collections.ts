@@ -17,11 +17,9 @@ export const addCollection = (req: Request, res: Response) => {
         for (let i = 0; i < req.body.collectionDetails.length; i++) {
           let reqShow = req.body.collectionDetails[i];
           if (collNames.includes(reqShow.name)) {
-            console.log("this show already exists", reqShow.name);
             thisExisitsArr.push(reqShow.name);
           } else {
             //new show
-            console.log("new show");
             thisNewArr.push(reqShow.name);
             collection.collectionDetails.push(reqShow);
           }
@@ -67,7 +65,6 @@ export const addCollection = (req: Request, res: Response) => {
             });
           }
         });
-        console.log(req.body.tokenId._id);
       }
     }
   );
@@ -81,7 +78,25 @@ export const getCollections = (req: Request, res: Response) => {
       if (details) {
         return res.status(201).json({ yourShows: details.collectionDetails });
       } else {
-        return res.status(400).json({ msg: "no shows added yet" });
+        return res.status(400).json({ error: "no shows added yet" });
+      }
+    }
+  );
+};
+export const deleteCollection = (req: Request, res: Response) => {
+  Collection.findOneAndDelete({ username: req.body.tokenId._id }).exec(
+    (error, deletedUser) => {
+      if (error) return res.status(400).json({ error });
+
+      if (deletedUser) {
+        return res.status(201).json({
+          msg: "deleted user collection successfully!",
+          user: deletedUser,
+        });
+      } else {
+        return res.status(400).json({
+          error: "user does not have any collection online yet",
+        });
       }
     }
   );
