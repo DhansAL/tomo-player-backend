@@ -6,6 +6,10 @@ import { authRouter } from "./routes/auth";
 import { collectionRouter } from "./routes/collections";
 import { homeRouter } from "./routes/home";
 
+/**
+ * FIXME: need to compile ts before deploying to generate .js mainfile
+ * make a script which takes care of this
+ */
 const app: Application = express();
 
 dotenv.config({ path: "./config.env" });
