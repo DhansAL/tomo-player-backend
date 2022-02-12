@@ -10,7 +10,7 @@ export const validateSignupRequests = [
 ];
 
 export const validateSigninRequests = [
-  check("username").notEmpty().withMessage("valid email is requiered"),
+  check("username").notEmpty().withMessage("valid username is requiered"),
   check("password")
     .isLength({ min: 6 })
     .withMessage("password must be atleast 6 character long"),
